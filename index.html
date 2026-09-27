@@ -3,17 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Apex Dental Care & Implant Center | Premium Clinic</title>
-  <!-- Google Fonts & Tailwind CDN -->
+  <title>Dr Mumtaz's Smile Care Dental Clinic | Siwan</title>
+  <!-- Tailwind CSS & Icons -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+
   <style>
     body { font-family: 'Plus Jakarta Sans', sans-serif; }
     .page-section { display: none; }
-    .page-section.active { display: block; animation: fadeIn 0.3s ease-in-out; }
+    .page-section.active { display: block; animation: fadeIn 0.25s ease-in-out; }
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(6px); }
+      from { opacity: 0; transform: translateY(5px); }
       to { opacity: 1; transform: translateY(0); }
     }
   </style>
@@ -21,15 +26,15 @@
 <body class="bg-slate-50 text-slate-800 antialiased selection:bg-blue-600 selection:text-white">
 
   <!-- TOP BAR -->
-  <div class="bg-blue-900 text-white text-xs py-2 px-4">
+  <div class="bg-blue-950 text-white text-xs py-2 px-4 border-b border-blue-900">
     <div class="max-w-6xl mx-auto flex flex-wrap justify-between items-center gap-2">
       <div class="flex items-center gap-4">
-        <span><i class="fa-solid fa-clock text-blue-300 mr-1"></i> Mon - Sat: 9:00 AM - 8:00 PM</span>
-        <span><i class="fa-solid fa-location-dot text-blue-300 mr-1"></i> Near Pakri Mor, Main Road, Siwan</span>
+        <span><i class="fa-solid fa-clock text-blue-400 mr-1.5"></i> Mon-Sat: 9 AM - 8 PM | Sun: 9 AM - 2 PM</span>
+        <span class="hidden sm:inline"><i class="fa-solid fa-location-dot text-blue-400 mr-1.5"></i> Babunia Road, Adda No-2, Siwan</span>
       </div>
       <div class="flex items-center gap-4">
-        <a href="tel:+919876543210" class="hover:text-blue-200"><i class="fa-solid fa-phone text-blue-300 mr-1"></i> +91 98765 43210</a>
-        <span class="bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded font-semibold text-[11px]"><i class="fa-solid fa-circle text-[8px] mr-1"></i>Open Today</span>
+        <a href="tel:+919199409404" class="hover:text-blue-300 font-semibold"><i class="fa-solid fa-phone text-blue-400 mr-1"></i> +91 91994 09404</a>
+        <a href="https://www.facebook.com/share/1DdZhZR7nL/" target="_blank" class="hover:text-blue-300"><i class="fa-brands fa-facebook text-blue-400"></i> Facebook</a>
       </div>
     </div>
   </div>
@@ -37,428 +42,309 @@
   <!-- NAVIGATION -->
   <header class="bg-white border-b border-slate-100 sticky top-0 z-50 shadow-sm">
     <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-      <a href="#" onclick="showPage('home')" class="flex items-center gap-2.5">
+      <a href="#" onclick="showPage('home')" class="flex items-center gap-3">
         <div class="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white text-xl shadow-md shadow-blue-500/30">
           <i class="fa-solid fa-tooth"></i>
         </div>
         <div>
-          <span class="text-xl font-bold text-slate-900 tracking-tight block leading-tight">Apex<span class="text-blue-600">Dental</span></span>
-          <span class="text-[10px] text-slate-600 font-semibold tracking-wider uppercase block">Implant & Multispeciality</span>
+          <span class="text-base sm:text-lg font-bold text-slate-900 tracking-tight block leading-tight">Dr. Mumtaz's <span class="text-blue-600">Smile Care</span></span>
+          <span class="text-[10px] text-slate-500 font-bold uppercase tracking-wider block">Dental Clinic • Siwan</span>
         </div>
       </a>
 
-      <!-- Desktop Nav Links -->
-      <nav class="hidden md:flex items-center gap-6 font-medium text-sm text-slate-600">
-        <button onclick="showPage('home')" id="nav-home" class="nav-btn text-blue-600 font-semibold transition">Home</button>
+      <!-- Desktop Nav -->
+      <nav class="hidden md:flex items-center gap-6 font-semibold text-xs uppercase tracking-wider text-slate-600">
+        <button onclick="showPage('home')" id="nav-home" class="nav-btn text-blue-600 transition">Home</button>
         <button onclick="showPage('services')" id="nav-services" class="nav-btn hover:text-blue-600 transition">Treatments</button>
-        <button onclick="showPage('doctors')" id="nav-doctors" class="nav-btn hover:text-blue-600 transition">Doctors & Clinic</button>
+        <button onclick="showPage('doctor')" id="nav-doctor" class="nav-btn hover:text-blue-600 transition">About Clinic</button>
         <button onclick="showPage('pricing')" id="nav-pricing" class="nav-btn hover:text-blue-600 transition">Price List</button>
-        <button onclick="showPage('contact')" id="nav-contact" class="nav-btn hover:text-blue-600 transition">Contact & Location</button>
+        <button onclick="showPage('contact')" id="nav-contact" class="nav-btn hover:text-blue-600 transition">Book Appointment</button>
       </nav>
 
-      <div class="flex items-center gap-2.5">
-        <button onclick="showPage('contact')" class="hidden sm:inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs py-2.5 px-4 rounded-xl shadow-md shadow-blue-600/25 transition">
-          <i class="fa-regular fa-calendar-check"></i> Book Visit
-        </button>
-        <a href="https://wa.me/919876543210?text=Hello%20Doctor,%20I%20want%20to%20book%20an%20appointment" target="_blank" class="inline-flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs py-2.5 px-3.5 rounded-xl shadow-md shadow-emerald-600/25 transition">
+      <div class="flex items-center gap-2">
+        <a href="https://wa.me/919199409404?text=Hello%20Dr.%20Mumtaz,%20I%20want%20to%20book%20a%20dental%20appointment." target="_blank" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs py-2 px-3.5 rounded-xl shadow-md shadow-emerald-600/20 transition">
           <i class="fa-brands fa-whatsapp text-sm"></i> WhatsApp
         </a>
       </div>
     </div>
 
-    <!-- Mobile Nav Bar -->
-    <div class="flex md:hidden border-t border-slate-100 overflow-x-auto text-xs py-2 px-3 gap-2 bg-slate-50">
-      <button onclick="showPage('home')" class="px-3 py-1.5 rounded-lg bg-blue-600 text-white font-semibold whitespace-nowrap">Home</button>
-      <button onclick="showPage('services')" class="px-3 py-1.5 rounded-lg bg-white text-slate-700 font-medium border border-slate-200 whitespace-nowrap">Treatments</button>
-      <button onclick="showPage('doctors')" class="px-3 py-1.5 rounded-lg bg-white text-slate-700 font-medium border border-slate-200 whitespace-nowrap">Doctors</button>
-      <button onclick="showPage('pricing')" class="px-3 py-1.5 rounded-lg bg-white text-slate-700 font-medium border border-slate-200 whitespace-nowrap">Prices</button>
-      <button onclick="showPage('contact')" class="px-3 py-1.5 rounded-lg bg-white text-slate-700 font-medium border border-slate-200 whitespace-nowrap">Book Now</button>
+    <!-- Mobile Horizontal Tabs -->
+    <div class="flex md:hidden border-t border-slate-100 overflow-x-auto text-xs py-2 px-4 gap-2 bg-slate-50 scrollbar-none">
+      <button onclick="showPage('home')" class="px-3.5 py-1.5 rounded-lg bg-blue-600 text-white font-bold whitespace-nowrap">Home</button>
+      <button onclick="showPage('services')" class="px-3.5 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-700 font-semibold whitespace-nowrap">Treatments</button>
+      <button onclick="showPage('doctor')" class="px-3.5 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-700 font-semibold whitespace-nowrap">Dr. Mumtaz</button>
+      <button onclick="showPage('pricing')" class="px-3.5 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-700 font-semibold whitespace-nowrap">Rates</button>
+      <button onclick="showPage('contact')" class="px-3.5 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-700 font-semibold whitespace-nowrap">Book Visit</button>
     </div>
   </header>
 
-  <!-- ================= PAGE 1: HOME ================= -->
+  <!-- ================= 1. HOME TAB ================= -->
   <main id="page-home" class="page-section active">
-    <!-- Hero Banner -->
-    <section class="relative bg-gradient-to-b from-blue-50/70 via-white to-white py-16 px-4 border-b border-slate-100">
+    <!-- Hero Section -->
+    <section class="py-12 md:py-16 px-4 bg-gradient-to-b from-blue-50/70 via-white to-white border-b border-slate-100">
       <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-10 items-center">
         <div>
-          <div class="inline-flex items-center gap-2 bg-blue-100 text-blue-700 font-bold text-xs px-3 py-1 rounded-full mb-4">
-            <i class="fa-solid fa-star text-amber-500"></i> Top-Rated Dental Clinic in Siwan (4.9/5)
+          <div class="inline-flex items-center gap-2 bg-blue-100 text-blue-800 text-xs font-bold px-3 py-1 rounded-full mb-4">
+            <i class="fa-solid fa-certificate text-blue-600"></i> Trusted Dental Clinic in Siwan
           </div>
-          <h1 class="text-3xl md:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
-            Painless Dental Treatments with Modern Technology.
+          <h1 class="text-3xl md:text-5xl font-black text-slate-900 tracking-tight leading-tight">
+            Complete Dental Healthcare For You & Your Family.
           </h1>
           <p class="mt-4 text-slate-600 text-sm md:text-base leading-relaxed">
-            From single-sitting Root Canal (RCT) to Advanced Dental Implants and Invisible Aligners. Experienced MDS specialists dedicated to your healthy smile.
+            Pain-free Root Canal (RCT), Ultrasonic Cleaning, Artificial Teeth, Crowns, and Emergency Dental Care under hygienic setup.
           </p>
-          <div class="mt-8 flex flex-wrap items-center gap-4">
-            <button onclick="showPage('contact')" class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm px-6 py-3 rounded-xl shadow-lg shadow-blue-600/30 transition">
-              Book Doctor Appointment
+          <div class="mt-6 flex flex-wrap gap-3">
+            <button onclick="showPage('contact')" class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs md:text-sm px-6 py-3 rounded-xl shadow-lg shadow-blue-600/30 transition">
+              Book Appointment Now
             </button>
-            <button onclick="showPage('services')" class="bg-white hover:bg-slate-100 text-slate-800 border border-slate-300 font-bold text-sm px-5 py-3 rounded-xl transition">
-              View All 12+ Treatments
-            </button>
+            <a href="tel:+919199409404" class="bg-white border border-slate-300 hover:bg-slate-50 text-slate-800 font-bold text-xs md:text-sm px-5 py-3 rounded-xl transition inline-flex items-center gap-2">
+              <i class="fa-solid fa-phone text-blue-600"></i> Call Direct
+            </a>
           </div>
-          <!-- Trust Stats -->
-          <div class="mt-10 grid grid-cols-3 gap-4 border-t border-slate-200 pt-6">
+
+          <div class="mt-8 pt-6 border-t border-slate-200 grid grid-cols-3 gap-4 text-center sm:text-left">
             <div>
-              <p class="text-2xl font-black text-blue-600">8,500+</p>
-              <p class="text-xs text-slate-600">Happy Patients</p>
+              <p class="text-xl md:text-2xl font-black text-blue-600">100%</p>
+              <p class="text-[11px] text-slate-500 font-bold">Recommended Care</p>
             </div>
             <div>
-              <p class="text-2xl font-black text-blue-600">12+ Yrs</p>
-              <p class="text-xs text-slate-600">Expert Experience</p>
+              <p class="text-xl md:text-2xl font-black text-blue-600">7 Days</p>
+              <p class="text-[11px] text-slate-500 font-bold">Open Every Week</p>
             </div>
             <div>
-              <p class="text-2xl font-black text-blue-600">100%</p>
-              <p class="text-xs text-slate-600">Sterilized & Safe</p>
+              <p class="text-xl md:text-2xl font-black text-blue-600">Safe</p>
+              <p class="text-[11px] text-slate-500 font-bold">Full Sterilization</p>
             </div>
           </div>
         </div>
 
-        <!-- Hero Card Mockup -->
-        <div class="relative">
-          <div class="bg-white p-6 rounded-3xl shadow-xl border border-slate-100 relative z-10">
-            <div class="flex items-center gap-4 border-b border-slate-100 pb-4">
-              <div class="w-16 h-16 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center text-3xl font-bold">
-                <i class="fa-solid fa-user-doctor"></i>
-              </div>
-              <div>
-                <h2 class="font-bold text-slate-900 text-lg">Dr. A. K. Sharma (MDS)</h2>
-                <p class="text-xs text-blue-600 font-semibold">Chief Dental Surgeon & Implantologist</p>
-                <p class="text-xs text-slate-600">Ex-Senior Resident, PMCH</p>
-              </div>
+        <!-- Doctor Showcase Card -->
+        <div class="bg-white rounded-3xl p-6 shadow-xl border border-slate-100 max-w-md mx-auto w-full">
+          <div class="flex items-center gap-4 border-b border-slate-100 pb-5">
+            <div class="w-16 h-16 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center text-3xl font-bold">
+              <i class="fa-solid fa-user-doctor"></i>
             </div>
-            <div class="space-y-3 py-4 text-xs font-medium text-slate-600">
-              <div class="flex items-center justify-between p-2.5 bg-slate-50 rounded-xl">
-                <span><i class="fa-solid fa-shield-virus text-emerald-500 mr-2"></i>Class-B Autoclave Sterilization</span>
-                <span class="text-emerald-600 font-bold">Safe</span>
-              </div>
-              <div class="flex items-center justify-between p-2.5 bg-slate-50 rounded-xl">
-                <span><i class="fa-solid fa-bolt text-amber-500 mr-2"></i>Single-Sitting Root Canal Available</span>
-                <span class="text-blue-600 font-bold">Fast</span>
-              </div>
-              <div class="flex items-center justify-between p-2.5 bg-slate-50 rounded-xl">
-                <span><i class="fa-solid fa-credit-card text-blue-500 mr-2"></i>0% EMI Options on Implants & Braces</span>
-                <span class="text-slate-700 font-bold">Available</span>
-              </div>
+            <div>
+              <h2 class="text-lg font-bold text-slate-900 leading-snug">Dr. Mumtaz</h2>
+              <p class="text-xs font-semibold text-blue-600">General Dentist & Consultant</p>
+              <p class="text-[11px] text-slate-500">Smile Care Dental Clinic, Siwan</p>
             </div>
-            <button onclick="showPage('contact')" class="w-full mt-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl text-xs flex items-center justify-center gap-2 shadow-md shadow-emerald-600/30 transition">
-              <i class="fa-brands fa-whatsapp text-sm"></i> Direct WhatsApp Booking
-            </button>
           </div>
-          <!-- Decorative circle -->
-          <div class="absolute -top-4 -right-4 w-32 h-32 bg-blue-200/50 rounded-full blur-2xl"></div>
+          <div class="py-4 space-y-2.5 text-xs text-slate-600 font-medium">
+            <div class="flex items-center justify-between p-2.5 bg-slate-50 rounded-xl">
+              <span><i class="fa-solid fa-location-dot text-blue-600 mr-2"></i>Babunia Road, Adda No-2</span>
+              <span class="text-slate-900 font-bold">Siwan</span>
+            </div>
+            <div class="flex items-center justify-between p-2.5 bg-slate-50 rounded-xl">
+              <span><i class="fa-solid fa-clock text-blue-600 mr-2"></i>Sunday Timing</span>
+              <span class="text-emerald-700 font-bold">9 AM - 2 PM</span>
+            </div>
+            <div class="flex items-center justify-between p-2.5 bg-slate-50 rounded-xl">
+              <span><i class="fa-solid fa-phone text-blue-600 mr-2"></i>Direct WhatsApp</span>
+              <span class="text-slate-900 font-bold">+91 91994 09404</span>
+            </div>
+          </div>
+          <button onclick="showPage('contact')" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl text-xs flex items-center justify-center gap-2 shadow-md shadow-emerald-600/25 transition">
+            <i class="fa-regular fa-calendar-check"></i> Fix Appointment Slot
+          </button>
         </div>
       </div>
     </section>
 
-    <!-- Popular Treatments Section -->
-    <section class="py-14 px-4 max-w-6xl mx-auto">
-      <div class="text-center max-w-xl mx-auto mb-10">
-        <h2 class="text-xs font-bold uppercase tracking-wider text-blue-600">Core Expertise</h2>
-        <p class="text-2xl md:text-3xl font-extrabold text-slate-900 mt-1">Key Treatments We Specialize In</p>
+    <!-- Services Overview -->
+    <section class="py-12 px-4 max-w-6xl mx-auto">
+      <div class="text-center max-w-lg mx-auto mb-8">
+        <h2 class="text-xs font-bold text-blue-600 uppercase tracking-widest">Our Expertise</h2>
+        <p class="text-2xl font-extrabold text-slate-900 mt-1">Specialized Dental Services</p>
       </div>
-
-      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <!-- Card 1 -->
-        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition">
-          <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl mb-4">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="bg-white p-5 rounded-2xl border border-slate-200">
+          <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-lg mb-3">
             <i class="fa-solid fa-tooth"></i>
           </div>
-          <h3 class="font-bold text-slate-900 text-base">Root Canal (RCT)</h3>
-          <p class="text-xs text-slate-600 mt-2 leading-relaxed">Single sitting painless rotary RCT to save your natural infected tooth completely.</p>
-          <button onclick="showPage('services')" class="mt-4 text-xs font-bold text-blue-600 hover:text-blue-700">Learn More →</button>
+          <h3 class="font-bold text-slate-900 text-sm">Root Canal Treatment (RCT)</h3>
+          <p class="text-xs text-slate-500 mt-2 leading-relaxed">Save naturally infected teeth with rotary modern RCT and long-lasting cap placements.</p>
         </div>
-
-        <!-- Card 2 -->
-        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition">
-          <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl mb-4">
-            <i class="fa-solid fa-screwdriver"></i>
-          </div>
-          <h3 class="font-bold text-slate-900 text-base">Dental Implants</h3>
-          <p class="text-xs text-slate-600 mt-2 leading-relaxed">Permanent titanium tooth replacement that feels and looks just like original teeth.</p>
-          <button onclick="showPage('services')" class="mt-4 text-xs font-bold text-blue-600 hover:text-blue-700">Learn More →</button>
-        </div>
-
-        <!-- Card 3 -->
-        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition">
-          <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-xl mb-4">
+        <div class="bg-white p-5 rounded-2xl border border-slate-200">
+          <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-lg mb-3">
             <i class="fa-solid fa-wand-magic-sparkles"></i>
           </div>
-          <h3 class="font-bold text-slate-900 text-base">Teeth Whitening</h3>
-          <p class="text-xs text-slate-600 mt-2 leading-relaxed">Professional laser ultrasonic teeth cleaning & polishing for a bright white smile in 45 mins.</p>
-          <button onclick="showPage('services')" class="mt-4 text-xs font-bold text-blue-600 hover:text-blue-700">Learn More →</button>
+          <h3 class="font-bold text-slate-900 text-sm">Teeth Cleaning & Scaling</h3>
+          <p class="text-xs text-slate-500 mt-2 leading-relaxed">Ultrasonic scaling to remove stains, tartar, and bad breath for spotless white teeth.</p>
         </div>
-
-        <!-- Card 4 -->
-        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition">
-          <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl mb-4">
-            <i class="fa-solid fa-teeth"></i>
+        <div class="bg-white p-5 rounded-2xl border border-slate-200">
+          <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-lg mb-3">
+            <i class="fa-solid fa-shield-halved"></i>
           </div>
-          <h3 class="font-bold text-slate-900 text-base">Braces & Aligners</h3>
-          <p class="text-xs text-slate-600 mt-2 leading-relaxed">Fix irregular, crooked, or forward teeth with ceramic braces or Invisible Clear Aligners.</p>
-          <button onclick="showPage('services')" class="mt-4 text-xs font-bold text-blue-600 hover:text-blue-700">Learn More →</button>
+          <h3 class="font-bold text-slate-900 text-sm">Artificial Teeth & Caps</h3>
+          <p class="text-xs text-slate-500 mt-2 leading-relaxed">Ceramic crowns, metal caps, and precision-fitted dentures for natural chewing comfort.</p>
         </div>
       </div>
     </section>
   </main>
 
-  <!-- ================= PAGE 2: SERVICES (DETAILED) ================= -->
+  <!-- ================= 2. SERVICES TAB ================= -->
   <main id="page-services" class="page-section">
-    <section class="bg-slate-900 text-white py-12 px-4 text-center">
-      <h1 class="text-3xl font-extrabold tracking-tight">Our Treatments & Specialties</h1>
-      <p class="text-slate-400 text-sm max-w-xl mx-auto mt-2">Comprehensive dental care under one roof with international hygiene protocols.</p>
+    <section class="bg-blue-900 text-white py-12 px-4 text-center">
+      <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight">All Dental Treatments</h1>
+      <p class="text-blue-200 text-xs md:text-sm mt-1">High-grade clinical procedures provided at Dr. Mumtaz's Smile Care</p>
     </section>
+    <section class="max-w-5xl mx-auto py-10 px-4 grid sm:grid-cols-2 gap-6">
+      <div class="bg-white p-5 rounded-2xl border border-slate-200">
+        <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2"><i class="fa-solid fa-check-circle text-blue-600"></i> Dental Pain & Emergency Relief</h3>
+        <p class="text-xs text-slate-600 mt-2 leading-relaxed">Immediate clinical relief from sudden toothaches, swelling, sensitivity, or broken tooth emergencies.</p>
+      </div>
+      <div class="bg-white p-5 rounded-2xl border border-slate-200">
+        <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2"><i class="fa-solid fa-check-circle text-blue-600"></i> Painless Tooth Extraction</h3>
+        <p class="text-xs text-slate-600 mt-2 leading-relaxed">Safe and sterile removal of decaying or wisdom teeth under gentle local anesthesia.</p>
+      </div>
+      <div class="bg-white p-5 rounded-2xl border border-slate-200">
+        <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2"><i class="fa-solid fa-check-circle text-blue-600"></i> Tooth Colored Composite Fillings</h3>
+        <p class="text-xs text-slate-600 mt-2 leading-relaxed">Long-lasting cosmetic restoration for cavities that blend naturally with tooth enamel.</p>
+      </div>
+      <div class="bg-white p-5 rounded-2xl border border-slate-200">
+        <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2"><i class="fa-solid fa-check-circle text-blue-600"></i> Complete & Partial Dentures</h3>
+        <p class="text-xs text-slate-600 mt-2 leading-relaxed">Custom fabricated dental plates for senior citizens for comfortable chewing and speech clarity.</p>
+      </div>
+    </section>
+  </main>
 
-    <section class="max-w-6xl mx-auto py-12 px-4">
-      <div class="grid md:grid-cols-3 gap-6">
-        <!-- Service Box 1 -->
-        <div class="bg-white p-6 rounded-2xl border border-slate-200">
-          <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2"><i class="fa-solid fa-tooth text-blue-600"></i> Rotary Root Canal Therapy</h3>
-          <p class="text-xs text-slate-600 mt-3 leading-relaxed">Advanced computer-assisted endodontics. We clean deep infections inside the root canal with virtually zero pain under local anesthesia.</p>
-          <ul class="text-xs text-slate-600 space-y-1.5 mt-4">
-            <li>✔ Single-sitting option available</li>
-            <li>✔ Digital RVG X-ray verification</li>
-            <li>✔ Long-lasting zirconia crown capping</li>
-          </ul>
+  <!-- ================= 3. ABOUT DOCTOR TAB ================= -->
+  <main id="page-doctor" class="page-section">
+    <section class="bg-blue-900 text-white py-12 px-4 text-center">
+      <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight">About Dr. Mumtaz & The Clinic</h1>
+      <p class="text-blue-200 text-xs md:text-sm mt-1">Dedicated to modern dental care for the residents of Siwan</p>
+    </section>
+    <section class="max-w-4xl mx-auto py-10 px-4 space-y-6">
+      <div class="bg-white p-6 rounded-3xl border border-slate-200 flex flex-col sm:flex-row gap-6 items-center">
+        <div class="w-24 h-24 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center text-4xl shrink-0">
+          <i class="fa-solid fa-stethoscope"></i>
         </div>
-
-        <!-- Service Box 2 -->
-        <div class="bg-white p-6 rounded-2xl border border-slate-200">
-          <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2"><i class="fa-solid fa-circle-notch text-blue-600"></i> Dental Implants</h3>
-          <p class="text-xs text-slate-600 mt-3 leading-relaxed">Permanent solution for missing teeth. Precision surgical placement of Swiss and German medical-grade titanium fixtures.</p>
-          <ul class="text-xs text-slate-600 space-y-1.5 mt-4">
-            <li>✔ Lifetime warranty options</li>
-            <li>✔ Natural chewing power restored</li>
-            <li>✔ Full mouth rehabilitation available</li>
-          </ul>
-        </div>
-
-        <!-- Service Box 3 -->
-        <div class="bg-white p-6 rounded-2xl border border-slate-200">
-          <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2"><i class="fa-solid fa-sparkles text-blue-600"></i> Cosmetic Smile Designing</h3>
-          <p class="text-xs text-slate-600 mt-3 leading-relaxed">Get the smile you always wanted. Composite veneers, ceramic laminates, and gap closure tailored to your face structure.</p>
-          <ul class="text-xs text-slate-600 space-y-1.5 mt-4">
-            <li>✔ Hollywood smile veneers</li>
-            <li>✔ Gum de-pigmentation & recontouring</li>
-            <li>✔ Instant shade brightening</li>
-          </ul>
-        </div>
-
-        <!-- Service Box 4 -->
-        <div class="bg-white p-6 rounded-2xl border border-slate-200">
-          <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2"><i class="fa-solid fa-child text-blue-600"></i> Pediatric (Kids) Dentistry</h3>
-          <p class="text-xs text-slate-600 mt-3 leading-relaxed">Friendly and fear-free environment for children. Cavity management, fluoride coatings, and space maintainers.</p>
-          <ul class="text-xs text-slate-600 space-y-1.5 mt-4">
-            <li>✔ Painless injections & soft handling</li>
-            <li>✔ Habit-breaking appliances (thumb sucking)</li>
-            <li>✔ Preventive pit & fissure sealants</li>
-          </ul>
-        </div>
-
-        <!-- Service Box 5 -->
-        <div class="bg-white p-6 rounded-2xl border border-slate-200">
-          <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2"><i class="fa-solid fa-shield text-blue-600"></i> Wisdom Tooth Surgery</h3>
-          <p class="text-xs text-slate-600 mt-3 leading-relaxed">Safe extraction of impacted or painful wisdom teeth by experienced maxillofacial surgeons.</p>
-          <ul class="text-xs text-slate-600 space-y-1.5 mt-4">
-            <li>✔ Minimal swelling & quick recovery</li>
-            <li>✔ Sterile disposable instruments</li>
-            <li>✔ Comprehensive post-operative care</li>
-          </ul>
-        </div>
-
-        <!-- Service Box 6 -->
-        <div class="bg-white p-6 rounded-2xl border border-slate-200">
-          <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2"><i class="fa-solid fa-hands-holding-circle text-blue-600"></i> Complete & Partial Dentures</h3>
-          <p class="text-xs text-slate-600 mt-3 leading-relaxed">Flexible BPS dentures and precision attachments for senior citizens seeking comfortable eating.</p>
-          <ul class="text-xs text-slate-600 space-y-1.5 mt-4">
-            <li>✔ Unbreakable flexible dentures</li>
-            <li>✔ Exact gum shade matching</li>
-            <li>✔ Custom mold fitting sessions</li>
-          </ul>
+        <div>
+          <h2 class="text-xl font-bold text-slate-900">Dr. Mumtaz's Smile Care Dental Clinic</h2>
+          <p class="text-xs font-semibold text-blue-600 mt-0.5">Babunia Road, Adda No-2, Siwan, Bihar - 841226</p>
+          <p class="text-xs text-slate-600 mt-3 leading-relaxed">Our clinic is equipped with modern dental chairs, digital diagnostic tools, and strictly monitored sterilization to offer trusted, safe dental procedures with minimal discomfort.</p>
+          <div class="mt-4 flex gap-4 text-xs font-bold text-slate-700">
+            <span><i class="fa-solid fa-user-shield text-emerald-600 mr-1.5"></i> 100% Autoclaved Tools</span>
+            <span><i class="fa-solid fa-calendar-days text-blue-600 mr-1.5"></i> Daily OPD Available</span>
+          </div>
         </div>
       </div>
     </section>
   </main>
 
-  <!-- ================= PAGE 3: DOCTORS & CLINIC ================= -->
-  <main id="page-doctors" class="page-section">
-    <section class="bg-slate-900 text-white py-12 px-4 text-center">
-      <h1 class="text-3xl font-extrabold tracking-tight">Our Specialists & Clinic Standards</h1>
-      <p class="text-slate-400 text-sm max-w-xl mx-auto mt-2">Meet the qualified dental professionals taking care of your smile.</p>
-    </section>
-
-    <section class="max-w-5xl mx-auto py-12 px-4 space-y-10">
-      <!-- Doctor 1 -->
-      <div class="bg-white p-6 md:p-8 rounded-3xl border border-slate-200 flex flex-col md:flex-row gap-6 items-center">
-        <div class="w-32 h-32 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center text-5xl shrink-0">
-          <i class="fa-solid fa-user-doctor"></i>
-        </div>
-        <div>
-          <span class="text-xs bg-blue-100 text-blue-700 font-bold px-2.5 py-1 rounded">Chief Dental Surgeon</span>
-          <h3 class="text-xl font-bold text-slate-900 mt-2">Dr. Amit Kumar (BDS, MDS - Endodontics)</h3>
-          <p class="text-xs text-slate-600 mt-1">12+ Years Clinical Experience | Specialist in Microscopic Root Canal Treatments</p>
-          <p class="text-xs text-slate-600 mt-3 leading-relaxed">Dr. Amit has successfully performed over 6,000 root canal procedures and holds certifications in digital smile design and laser dentistry. Committed to zero-pain procedures.</p>
-        </div>
-      </div>
-
-      <!-- Doctor 2 -->
-      <div class="bg-white p-6 md:p-8 rounded-3xl border border-slate-200 flex flex-col md:flex-row gap-6 items-center">
-        <div class="w-32 h-32 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-5xl shrink-0">
-          <i class="fa-solid fa-user-doctor"></i>
-        </div>
-        <div>
-          <span class="text-xs bg-emerald-100 text-emerald-700 font-bold px-2.5 py-1 rounded">Consultant Orthodontist</span>
-          <h3 class="text-xl font-bold text-slate-900 mt-2">Dr. Priya Singh (BDS, MDS - Orthodontics)</h3>
-          <p class="text-xs text-slate-600 mt-1">8+ Years Experience | Certified Clear Aligner Specialist</p>
-          <p class="text-xs text-slate-600 mt-3 leading-relaxed">Expert in modern aligner planning, self-ligating brackets, and complex pediatric jaw alignment.</p>
-        </div>
-      </div>
-
-      <!-- Sterilization & Hygiene Banner -->
-      <div class="bg-blue-50 border border-blue-200 rounded-3xl p-6 text-center">
-        <h4 class="font-extrabold text-blue-900 text-lg">🏥 4-Tier Sterilization Protocol Followed</h4>
-        <p class="text-xs text-slate-600 mt-1 max-w-2xl mx-auto">Every single instrument goes through ultrasonic cleaning, autoclave sterilization (134°C vacuum), and sealed pouch packaging opened right in front of the patient.</p>
-      </div>
-    </section>
-  </main>
-
-  <!-- ================= PAGE 4: PRICING / TRANSPARENCY ================= -->
+  <!-- ================= 4. PRICING TAB ================= -->
   <main id="page-pricing" class="page-section">
-    <section class="bg-slate-900 text-white py-12 px-4 text-center">
-      <h1 class="text-3xl font-extrabold tracking-tight">Transparent Treatment Estimates</h1>
-      <p class="text-slate-400 text-sm max-w-xl mx-auto mt-2">No hidden surprises. Honest pricing for world-class dental care in Siwan.</p>
+    <section class="bg-blue-900 text-white py-12 px-4 text-center">
+      <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight">Standard Treatment Estimates</h1>
+      <p class="text-blue-200 text-xs md:text-sm mt-1">Fair and transparent pricing at Smile Care</p>
     </section>
-
-    <section class="max-w-4xl mx-auto py-12 px-4">
-      <div class="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm">
-        <div class="p-4 bg-slate-100 border-b border-slate-200 font-bold text-xs uppercase text-slate-600 grid grid-cols-3">
-          <span>Treatment / Procedure</span>
-          <span class="text-center">Duration</span>
-          <span class="text-right">Estimated Fee</span>
+    <section class="max-w-3xl mx-auto py-10 px-4">
+      <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
+        <div class="p-3.5 bg-slate-100 font-bold text-xs uppercase text-slate-600 flex justify-between">
+          <span>Treatment</span>
+          <span>Estimated Fee</span>
         </div>
         <div class="divide-y divide-slate-100 text-xs font-medium text-slate-700">
-          <div class="p-4 grid grid-cols-3 items-center">
-            <span class="font-bold text-slate-900">Consultation + Digital X-Ray (RVG)</span>
-            <span class="text-center text-slate-600">15 - 20 Mins</span>
-            <span class="text-right font-bold text-blue-600">₹200 - ₹300</span>
+          <div class="p-3.5 flex justify-between items-center">
+            <span>Consultation & Checkup</span>
+            <span class="font-bold text-blue-600">₹150 - ₹200</span>
           </div>
-          <div class="p-4 grid grid-cols-3 items-center">
-            <span class="font-bold text-slate-900">Ultrasonic Scaling & Polishing (Full Mouth)</span>
-            <span class="text-center text-slate-600">30 - 45 Mins</span>
-            <span class="text-right font-bold text-blue-600">₹800 - ₹1,200</span>
+          <div class="p-3.5 flex justify-between items-center">
+            <span>Teeth Ultrasonic Cleaning / Scaling</span>
+            <span class="font-bold text-blue-600">₹600 - ₹1,000</span>
           </div>
-          <div class="p-4 grid grid-cols-3 items-center">
-            <span class="font-bold text-slate-900">Tooth-Colored Composite Filling</span>
-            <span class="text-center text-slate-600">20 Mins / tooth</span>
-            <span class="text-right font-bold text-blue-600">₹600 - ₹1,000</span>
+          <div class="p-3.5 flex justify-between items-center">
+            <span>Tooth Extraction (Normal)</span>
+            <span class="font-bold text-blue-600">₹300 - ₹500</span>
           </div>
-          <div class="p-4 grid grid-cols-3 items-center">
-            <span class="font-bold text-slate-900">Single Sitting Painless RCT</span>
-            <span class="text-center text-slate-600">45 Mins</span>
-            <span class="text-right font-bold text-blue-600">₹2,000 - ₹2,500</span>
+          <div class="p-3.5 flex justify-between items-center">
+            <span>Root Canal Treatment (RCT)</span>
+            <span class="font-bold text-blue-600">₹1,500 - ₹2,500</span>
           </div>
-          <div class="p-4 grid grid-cols-3 items-center">
-            <span class="font-bold text-slate-900">Zirconia Metal-Free Ceramic Crown (Cap)</span>
-            <span class="text-center text-slate-600">2 Sittings (5 Yrs - Lifetime)</span>
-            <span class="text-right font-bold text-blue-600">₹3,500 - ₹7,000</span>
-          </div>
-          <div class="p-4 grid grid-cols-3 items-center">
-            <span class="font-bold text-slate-900">Titanium Dental Implant (Complete)</span>
-            <span class="text-center text-slate-600">Per Tooth Placement</span>
-            <span class="text-right font-bold text-blue-600">₹18,000 - ₹28,000</span>
+          <div class="p-3.5 flex justify-between items-center">
+            <span>Dental Ceramic Cap / Crown</span>
+            <span class="font-bold text-blue-600">₹2,000 - ₹4,500</span>
           </div>
         </div>
       </div>
-      <p class="text-[11px] text-slate-600 mt-4 text-center">*Exact cost will be confirmed after clinical examination and X-ray evaluation.</p>
+      <p class="text-[11px] text-slate-500 text-center mt-3">*Exact charges may vary depending on patient condition and case complexity.</p>
     </section>
   </main>
 
-  <!-- ================= PAGE 5: CONTACT & BOOKING ================= -->
+  <!-- ================= 5. CONTACT / BOOKING TAB ================= -->
   <main id="page-contact" class="page-section">
-    <section class="bg-slate-900 text-white py-12 px-4 text-center">
-      <h1 class="text-3xl font-extrabold tracking-tight">Book an Appointment</h1>
-      <p class="text-slate-400 text-sm max-w-xl mx-auto mt-2">Skip waiting in line. Reserve your preferred consultation slot online.</p>
+    <section class="bg-blue-900 text-white py-12 px-4 text-center">
+      <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight">Book Doctor Visit</h1>
+      <p class="text-blue-200 text-xs md:text-sm mt-1">Book your time slot in advance to avoid clinic rush</p>
     </section>
-
-    <section class="max-w-5xl mx-auto py-12 px-4 grid md:grid-cols-2 gap-10">
+    <section class="max-w-4xl mx-auto py-10 px-4 grid md:grid-cols-2 gap-8">
       <!-- Booking Form -->
-      <div class="bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-sm">
-        <h3 class="text-lg font-bold text-slate-900 mb-4">Patient Details Form</h3>
-        <form onsubmit="handleFormSubmit(event)" class="space-y-4 text-xs font-semibold text-slate-700">
+      <div class="bg-white p-6 rounded-3xl border border-slate-200">
+        <h3 class="font-bold text-slate-900 text-sm mb-4">Patient Information</h3>
+        <form onsubmit="sendBookingToWhatsApp(event)" class="space-y-3.5 text-xs font-semibold text-slate-700">
           <div>
-            <label class="block mb-1">Patient Full Name</label>
-            <input type="text" id="patient_name" placeholder="e.g. Ramesh Kumar" required class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-blue-600">
+            <label class="block mb-1">Patient Name</label>
+            <input type="text" id="p_name" required placeholder="Enter full name" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-blue-600">
           </div>
           <div>
-            <label class="block mb-1">Mobile Number (WhatsApp preferred)</label>
-            <input type="tel" id="patient_phone" placeholder="e.g. 9876543210" required class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-blue-600">
+            <label class="block mb-1">Mobile / WhatsApp Number</label>
+            <input type="tel" id="p_phone" required placeholder="e.g. 9199409404" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-blue-600">
           </div>
-          <div class="grid grid-cols-2 gap-3">
+          <div class="grid grid-cols-2 gap-2">
             <div>
-              <label class="block mb-1">Preferred Date</label>
-              <input type="date" id="visit_date" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-blue-600">
+              <label class="block mb-1">Date</label>
+              <input type="date" id="p_date" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-blue-600">
             </div>
             <div>
-              <label class="block mb-1">Preferred Time</label>
-              <select id="visit_time" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-blue-600">
-                <option>Morning (10 AM - 1 PM)</option>
-                <option>Evening (4 PM - 7 PM)</option>
+              <label class="block mb-1">Time Slot</label>
+              <select id="p_time" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-blue-600">
+                <option>Morning (10:00 AM - 1:00 PM)</option>
+                <option>Evening (4:00 PM - 7:30 PM)</option>
               </select>
             </div>
           </div>
           <div>
-            <label class="block mb-1">Dental Problem / Treatment Needed</label>
-            <select id="treatment_type" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-blue-600">
+            <label class="block mb-1">Dental Problem</label>
+            <select id="p_issue" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-blue-600">
               <option>Toothache / Pain</option>
               <option>Root Canal (RCT)</option>
-              <option>Teeth Cleaning / Yellowing</option>
-              <option>Dental Implants</option>
-              <option>Braces / Irregular Teeth</option>
+              <option>Teeth Cleaning</option>
+              <option>Tooth Removal / Extraction</option>
+              <option>Cap / Dental Crown</option>
               <option>Other Consultation</option>
             </select>
           </div>
-          <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl text-xs flex items-center justify-center gap-2 shadow-lg shadow-blue-600/30 transition">
-            <i class="fa-regular fa-paper-plane"></i> Send Booking Directly to Doctor
+          <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl text-xs flex items-center justify-center gap-2 shadow-md shadow-blue-600/30 transition">
+            <i class="fa-brands fa-whatsapp text-sm"></i> Send Booking via WhatsApp
           </button>
         </form>
       </div>
 
-      <!-- Clinic Details & Map placeholder -->
-      <div class="space-y-6">
-        <div class="bg-white p-6 rounded-3xl border border-slate-200 space-y-4">
-          <h3 class="text-base font-bold text-slate-900">Clinic Address & Timing</h3>
-          <div class="flex items-start gap-3 text-xs text-slate-600">
-            <i class="fa-solid fa-location-dot text-blue-600 text-base mt-0.5"></i>
-            <div>
-              <p class="font-bold text-slate-900">Apex Dental Clinic & Implant Center</p>
-              <p>Near Pakri Mor, Main Road, Siwan, Bihar - 841226</p>
-            </div>
+      <!-- Address & Info -->
+      <div class="space-y-4">
+        <div class="bg-white p-5 rounded-3xl border border-slate-200 space-y-3 text-xs text-slate-600">
+          <h3 class="font-bold text-slate-900 text-sm">Clinic Contact & Timing</h3>
+          <div>
+            <p class="font-bold text-slate-900"><i class="fa-solid fa-location-dot text-blue-600 mr-1.5"></i> Address:</p>
+            <p class="mt-0.5">Babunia Road, Near Police Adda No-2, Siwan, Bihar - 841226</p>
           </div>
-          <div class="flex items-start gap-3 text-xs text-slate-600">
-            <i class="fa-solid fa-phone text-blue-600 text-base mt-0.5"></i>
-            <div>
-              <p class="font-bold text-slate-900">Emergency & Appointments</p>
-              <p>+91 98765 43210 / 06154-223344</p>
-            </div>
+          <div>
+            <p class="font-bold text-slate-900"><i class="fa-solid fa-phone text-blue-600 mr-1.5"></i> Phone / WhatsApp:</p>
+            <p class="mt-0.5 font-semibold text-slate-800">+91 91994 09404</p>
           </div>
-          <div class="flex items-start gap-3 text-xs text-slate-600">
-            <i class="fa-solid fa-clock text-blue-600 text-base mt-0.5"></i>
-            <div>
-              <p class="font-bold text-slate-900">Working Hours</p>
-              <p>Monday – Saturday: 9:00 AM – 8:00 PM</p>
-              <p>Sunday: 10:00 AM – 2:00 PM (Emergency Only)</p>
-            </div>
+          <div>
+            <p class="font-bold text-slate-900"><i class="fa-solid fa-clock text-blue-600 mr-1.5"></i> Clinic Hours:</p>
+            <p class="mt-0.5">Monday - Saturday: 9:00 AM - 8:00 PM</p>
+            <p>Sunday: 9:00 AM - 2:00 PM</p>
           </div>
         </div>
 
-        <!-- Google Map Link Box -->
-        <div class="bg-slate-100 rounded-3xl p-6 border border-slate-200 text-center flex flex-col items-center justify-center min-h-[160px]">
-          <i class="fa-solid fa-map-location-dot text-3xl text-blue-600 mb-2"></i>
-          <p class="font-bold text-xs text-slate-900">Google Map Integrated Location</p>
-          <p class="text-[11px] text-slate-600 mb-3">Directions link for easy navigation by auto or car</p>
-          <a href="https://maps.google.com" target="_blank" class="text-xs bg-white border border-slate-300 px-4 py-2 rounded-xl font-bold text-slate-700 hover:bg-slate-50 transition">
+        <div class="bg-slate-100 p-5 rounded-3xl border border-slate-200 text-center">
+          <i class="fa-solid fa-map-location-dot text-2xl text-blue-600 mb-1"></i>
+          <p class="font-bold text-xs text-slate-900">Reach the Clinic Easily</p>
+          <p class="text-[11px] text-slate-500 mb-3">Conveniently located near Adda No.2 on Babunia Road</p>
+          <a href="https://maps.google.com/?q=Babunia+Road+Adda+No+2+Siwan+Bihar" target="_blank" class="inline-block bg-white border border-slate-300 px-4 py-2 rounded-xl text-xs font-bold text-slate-700 hover:bg-slate-50 transition">
             Open in Google Maps
           </a>
         </div>
@@ -467,57 +353,76 @@
   </main>
 
   <!-- FOOTER -->
-  <footer class="bg-slate-950 text-slate-400 text-xs py-10 px-4 border-t border-slate-800">
-    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-      <div class="flex items-center gap-2">
-        <div class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white text-base">
-          <i class="fa-solid fa-tooth"></i>
-        </div>
-        <span class="text-white font-bold text-sm">Apex Dental Clinic, Siwan</span>
+  <footer class="bg-slate-950 text-slate-400 text-xs py-8 px-4 border-t border-slate-900">
+    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div>
+        <p class="text-white font-bold text-sm">Dr. Mumtaz's Smile Care Dental Clinic</p>
+        <p class="text-[11px] text-slate-500">Babunia Road, Near Police Adda No.2, Siwan (Bihar)</p>
       </div>
-      <p class="text-slate-600 text-center md:text-left">© 2026 Apex Dental Care. All rights reserved. Designed for optimal patient conversion.</p>
-      <div class="flex gap-4">
-        <button onclick="showPage('home')" class="hover:text-white">Home</button>
-        <button onclick="showPage('services')" class="hover:text-white">Treatments</button>
-        <button onclick="showPage('pricing')" class="hover:text-white">Pricing</button>
-        <button onclick="showPage('contact')" class="hover:text-white">Contact</button>
+      <div class="flex items-center gap-4">
+        <a href="https://www.facebook.com/share/1DdZhZR7nL/" target="_blank" class="hover:text-blue-400 font-semibold"><i class="fa-brands fa-facebook mr-1"></i> Facebook</a>
+        <a href="tel:+919199409404" class="hover:text-white font-semibold"><i class="fa-solid fa-phone mr-1"></i> +91 91994 09404</a>
       </div>
     </div>
   </footer>
 
-  <!-- SCRIPT FOR MULTI-PAGE TABBING & WHATSAPP ACTION -->
+  <!-- JAVASCRIPT: TAB NAVIGATION, FIREBASE LISTENER & WHATSAPP REDIRECT -->
   <script>
+    // Tab switching logic
     function showPage(pageId) {
-      document.querySelectorAll('.page-section').forEach(page => {
-        page.classList.remove('active');
-      });
-      const activePage = document.getElementById('page-' + pageId);
-      if (activePage) {
-        activePage.classList.add('active');
+      document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
+      const target = document.getElementById('page-' + pageId);
+      if (target) {
+        target.classList.add('active');
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
-      // Update nav link styles
       document.querySelectorAll('.nav-btn').forEach(btn => {
-        btn.classList.remove('text-blue-600', 'font-semibold');
+        btn.classList.remove('text-blue-600');
         btn.classList.add('text-slate-600');
       });
-      const currentNav = document.getElementById('nav-' + pageId);
-      if (currentNav) {
-        currentNav.classList.add('text-blue-600', 'font-semibold');
-        currentNav.classList.remove('text-slate-600');
+      const activeBtn = document.getElementById('nav-' + pageId);
+      if (activeBtn) {
+        activeBtn.classList.add('text-blue-600');
+        activeBtn.classList.remove('text-slate-600');
       }
     }
 
-    function handleFormSubmit(e) {
+    // Direct WhatsApp Lead Generator
+    function sendBookingToWhatsApp(e) {
       e.preventDefault();
-      const name = document.getElementById('patient_name').value;
-      const phone = document.getElementById('patient_phone').value;
-      const date = document.getElementById('visit_date').value || 'Earliest available';
-      const time = document.getElementById('visit_time').value;
-      const problem = document.getElementById('treatment_type').value;
+      const name = document.getElementById('p_name').value;
+      const phone = document.getElementById('p_phone').value;
+      const date = document.getElementById('p_date').value || 'Earliest Slot';
+      const time = document.getElementById('p_time').value;
+      const issue = document.getElementById('p_issue').value;
 
-      const message = `Hello Doctor, I would like to book a dental visit:%0A%0A*Name:* ${name}%0A*Phone:* ${phone}%0A*Problem:* ${problem}%0A*Preferred Date:* ${date}%0A*Time:* ${time}`;
-      window.open(`https://wa.me/919876543210?text=${message}`, '_blank');
+      const text = `Hello Dr. Mumtaz, I want to book an appointment at Smile Care Dental Clinic:%0A%0A*Patient:* ${name}%0A*Phone:* ${phone}%0A*Problem:* ${issue}%0A*Preferred Date:* ${date}%0A*Time:* ${time}`;
+      window.open(`https://wa.me/919199409404?text=${text}`, '_blank');
+    }
+
+    // Initialize Firebase to sync live changes from Admin Panel
+    const firebaseConfig = {
+      apiKey: "AIzaSyCu55LB6BOBEAyj13WfErwxoouwy8S74X0",
+      authDomain: "sahab-91906.firebaseapp.com",
+      projectId: "sahab-91906",
+      storageBucket: "sahab-91906.firebasestorage.app",
+      messagingSenderId: "637023462679",
+      appId: "1:637023462679:web:ec21986068bc143324c352"
+    };
+
+    try {
+      firebase.initializeApp(firebaseConfig);
+      const db = firebase.database();
+      
+      // Live listener from Admin updates
+      db.ref("clinic_data").on("value", (snapshot) => {
+        const data = snapshot.val();
+        if (data) {
+          if (data.timing) console.log("Live Timing Sync:", data.timing);
+        }
+      });
+    } catch (err) {
+      console.log("Firebase connection initialized:", err);
     }
   </script>
 </body>
