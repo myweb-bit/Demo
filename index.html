@@ -1,429 +1,835 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dr Mumtaz's Smile Care Dental Clinic | Siwan</title>
-  <!-- Tailwind CSS & Icons -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body { font-family: 'Plus Jakarta Sans', sans-serif; }
-    .page-section { display: none; }
-    .page-section.active { display: block; animation: fadeIn 0.25s ease-in-out; }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(5px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-  </style>
-</head>
-<body class="bg-slate-50 text-slate-800 antialiased selection:bg-blue-600 selection:text-white">
+    <title>The Mom's Cafe & Dine | Artisanal Culinary Lounge • Chapra</title>
+    <meta name="description" content="The Mom's Cafe & Dine, Chapra. Handcrafted momos, wok-tossed noodles, gourmet thick shakes, and private party dining.">
 
-  <!-- TOP BAR -->
-  <div class="bg-blue-950 text-white text-xs py-2 px-4 border-b border-blue-900">
-    <div class="max-w-6xl mx-auto flex flex-wrap justify-between items-center gap-2">
-      <div class="flex items-center gap-4">
-        <span><i class="fa-solid fa-clock text-blue-400 mr-1.5"></i> Mon-Sat: 9 AM - 8 PM | Sun: 9 AM - 2 PM</span>
-        <span class="hidden sm:inline"><i class="fa-solid fa-location-dot text-blue-400 mr-1.5"></i> Babunia Road, Adda No-2, Siwan</span>
-      </div>
-      <div class="flex items-center gap-4">
-        <a href="tel:+919199409404" class="hover:text-blue-300 font-semibold"><i class="fa-solid fa-phone text-blue-400 mr-1"></i> +91 91994 09404</a>
-        <a href="https://www.facebook.com/share/1DdZhZR7nL/" target="_blank" class="hover:text-blue-300"><i class="fa-brands fa-facebook text-blue-400"></i> Facebook</a>
-      </div>
-    </div>
-  </div>
+    <!-- Fonts: Cormorant Garamond (Ultra Luxury Editorial) + Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- NAVIGATION -->
-  <header class="bg-white border-b border-slate-100 sticky top-0 z-50 shadow-sm">
-    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-      <a href="#" onclick="showPage('home')" class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white text-xl shadow-md shadow-blue-500/30">
-          <i class="fa-solid fa-tooth"></i>
-        </div>
-        <div>
-          <span class="text-base sm:text-lg font-bold text-slate-900 tracking-tight block leading-tight">Dr. Mumtaz's <span class="text-blue-600">Smile Care</span></span>
-          <span class="text-[10px] text-slate-500 font-bold uppercase tracking-wider block">Dental Clinic • Siwan</span>
-        </div>
-      </a>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-      <!-- Desktop Nav -->
-      <nav class="hidden md:flex items-center gap-6 font-semibold text-xs uppercase tracking-wider text-slate-600">
-        <button onclick="showPage('home')" id="nav-home" class="nav-btn text-blue-600 transition">Home</button>
-        <button onclick="showPage('services')" id="nav-services" class="nav-btn hover:text-blue-600 transition">Treatments</button>
-        <button onclick="showPage('doctor')" id="nav-doctor" class="nav-btn hover:text-blue-600 transition">About Clinic</button>
-        <button onclick="showPage('pricing')" id="nav-pricing" class="nav-btn hover:text-blue-600 transition">Price List</button>
-        <button onclick="showPage('contact')" id="nav-contact" class="nav-btn hover:text-blue-600 transition">Book Appointment</button>
-      </nav>
-
-      <div class="flex items-center gap-2">
-        <a href="https://wa.me/919199409404?text=Hello%20Dr.%20Mumtaz,%20I%20want%20to%20book%20a%20dental%20appointment." target="_blank" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs py-2 px-3.5 rounded-xl shadow-md shadow-emerald-600/20 transition">
-          <i class="fa-brands fa-whatsapp text-sm"></i> WhatsApp
-        </a>
-      </div>
-    </div>
-
-    <!-- Mobile Horizontal Tabs -->
-    <div class="flex md:hidden border-t border-slate-100 overflow-x-auto text-xs py-2 px-4 gap-2 bg-slate-50 scrollbar-none">
-      <button onclick="showPage('home')" class="px-3.5 py-1.5 rounded-lg bg-blue-600 text-white font-bold whitespace-nowrap">Home</button>
-      <button onclick="showPage('services')" class="px-3.5 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-700 font-semibold whitespace-nowrap">Treatments</button>
-      <button onclick="showPage('doctor')" class="px-3.5 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-700 font-semibold whitespace-nowrap">Dr. Mumtaz</button>
-      <button onclick="showPage('pricing')" class="px-3.5 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-700 font-semibold whitespace-nowrap">Rates</button>
-      <button onclick="showPage('contact')" class="px-3.5 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-700 font-semibold whitespace-nowrap">Book Visit</button>
-    </div>
-  </header>
-
-  <!-- ================= 1. HOME TAB ================= -->
-  <main id="page-home" class="page-section active">
-    <!-- Hero Section -->
-    <section class="py-12 md:py-16 px-4 bg-gradient-to-b from-blue-50/70 via-white to-white border-b border-slate-100">
-      <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-10 items-center">
-        <div>
-          <div class="inline-flex items-center gap-2 bg-blue-100 text-blue-800 text-xs font-bold px-3 py-1 rounded-full mb-4">
-            <i class="fa-solid fa-certificate text-blue-600"></i> Trusted Dental Clinic in Siwan
-          </div>
-          <h1 class="text-3xl md:text-5xl font-black text-slate-900 tracking-tight leading-tight">
-            Complete Dental Healthcare For You & Your Family.
-          </h1>
-          <p class="mt-4 text-slate-600 text-sm md:text-base leading-relaxed">
-            Pain-free Root Canal (RCT), Ultrasonic Cleaning, Artificial Teeth, Crowns, and Emergency Dental Care under hygienic setup.
-          </p>
-          <div class="mt-6 flex flex-wrap gap-3">
-            <button onclick="showPage('contact')" class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs md:text-sm px-6 py-3 rounded-xl shadow-lg shadow-blue-600/30 transition">
-              Book Appointment Now
-            </button>
-            <a href="tel:+919199409404" class="bg-white border border-slate-300 hover:bg-slate-50 text-slate-800 font-bold text-xs md:text-sm px-5 py-3 rounded-xl transition inline-flex items-center gap-2">
-              <i class="fa-solid fa-phone text-blue-600"></i> Call Direct
-            </a>
-          </div>
-
-          <div class="mt-8 pt-6 border-t border-slate-200 grid grid-cols-3 gap-4 text-center sm:text-left">
-            <div>
-              <p class="text-xl md:text-2xl font-black text-blue-600">100%</p>
-              <p class="text-[11px] text-slate-500 font-bold">Recommended Care</p>
-            </div>
-            <div>
-              <p class="text-xl md:text-2xl font-black text-blue-600">7 Days</p>
-              <p class="text-[11px] text-slate-500 font-bold">Open Every Week</p>
-            </div>
-            <div>
-              <p class="text-xl md:text-2xl font-black text-blue-600">Safe</p>
-              <p class="text-[11px] text-slate-500 font-bold">Full Sterilization</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Doctor Showcase Card -->
-        <div class="bg-white rounded-3xl p-6 shadow-xl border border-slate-100 max-w-md mx-auto w-full">
-          <div class="flex items-center gap-4 border-b border-slate-100 pb-5">
-            <div class="w-16 h-16 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center text-3xl font-bold">
-              <i class="fa-solid fa-user-doctor"></i>
-            </div>
-            <div>
-              <h2 class="text-lg font-bold text-slate-900 leading-snug">Dr. Mumtaz</h2>
-              <p class="text-xs font-semibold text-blue-600">General Dentist & Consultant</p>
-              <p class="text-[11px] text-slate-500">Smile Care Dental Clinic, Siwan</p>
-            </div>
-          </div>
-          <div class="py-4 space-y-2.5 text-xs text-slate-600 font-medium">
-            <div class="flex items-center justify-between p-2.5 bg-slate-50 rounded-xl">
-              <span><i class="fa-solid fa-location-dot text-blue-600 mr-2"></i>Babunia Road, Adda No-2</span>
-              <span class="text-slate-900 font-bold">Siwan</span>
-            </div>
-            <div class="flex items-center justify-between p-2.5 bg-slate-50 rounded-xl">
-              <span><i class="fa-solid fa-clock text-blue-600 mr-2"></i>Sunday Timing</span>
-              <span class="text-emerald-700 font-bold">9 AM - 2 PM</span>
-            </div>
-            <div class="flex items-center justify-between p-2.5 bg-slate-50 rounded-xl">
-              <span><i class="fa-solid fa-phone text-blue-600 mr-2"></i>Direct WhatsApp</span>
-              <span class="text-slate-900 font-bold">+91 91994 09404</span>
-            </div>
-          </div>
-          <button onclick="showPage('contact')" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl text-xs flex items-center justify-center gap-2 shadow-md shadow-emerald-600/25 transition">
-            <i class="fa-regular fa-calendar-check"></i> Fix Appointment Slot
-          </button>
-        </div>
-      </div>
-    </section>
-
-    <!-- Services Overview -->
-    <section class="py-12 px-4 max-w-6xl mx-auto">
-      <div class="text-center max-w-lg mx-auto mb-8">
-        <h2 class="text-xs font-bold text-blue-600 uppercase tracking-widest">Our Expertise</h2>
-        <p class="text-2xl font-extrabold text-slate-900 mt-1">Specialized Dental Services</p>
-      </div>
-      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div class="bg-white p-5 rounded-2xl border border-slate-200">
-          <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-lg mb-3">
-            <i class="fa-solid fa-tooth"></i>
-          </div>
-          <h3 class="font-bold text-slate-900 text-sm">Root Canal Treatment (RCT)</h3>
-          <p class="text-xs text-slate-500 mt-2 leading-relaxed">Save naturally infected teeth with rotary modern RCT and long-lasting cap placements.</p>
-        </div>
-        <div class="bg-white p-5 rounded-2xl border border-slate-200">
-          <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-lg mb-3">
-            <i class="fa-solid fa-wand-magic-sparkles"></i>
-          </div>
-          <h3 class="font-bold text-slate-900 text-sm">Teeth Cleaning & Scaling</h3>
-          <p class="text-xs text-slate-500 mt-2 leading-relaxed">Ultrasonic scaling to remove stains, tartar, and bad breath for spotless white teeth.</p>
-        </div>
-        <div class="bg-white p-5 rounded-2xl border border-slate-200">
-          <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-lg mb-3">
-            <i class="fa-solid fa-shield-halved"></i>
-          </div>
-          <h3 class="font-bold text-slate-900 text-sm">Artificial Teeth & Caps</h3>
-          <p class="text-xs text-slate-500 mt-2 leading-relaxed">Ceramic crowns, metal caps, and precision-fitted dentures for natural chewing comfort.</p>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <!-- ================= 2. SERVICES TAB ================= -->
-  <main id="page-services" class="page-section">
-    <section class="bg-blue-900 text-white py-12 px-4 text-center">
-      <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight">All Dental Treatments</h1>
-      <p class="text-blue-200 text-xs md:text-sm mt-1">High-grade clinical procedures provided at Dr. Mumtaz's Smile Care</p>
-    </section>
-    <section class="max-w-5xl mx-auto py-10 px-4 grid sm:grid-cols-2 gap-6">
-      <div class="bg-white p-5 rounded-2xl border border-slate-200">
-        <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2"><i class="fa-solid fa-check-circle text-blue-600"></i> Dental Pain & Emergency Relief</h3>
-        <p class="text-xs text-slate-600 mt-2 leading-relaxed">Immediate clinical relief from sudden toothaches, swelling, sensitivity, or broken tooth emergencies.</p>
-      </div>
-      <div class="bg-white p-5 rounded-2xl border border-slate-200">
-        <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2"><i class="fa-solid fa-check-circle text-blue-600"></i> Painless Tooth Extraction</h3>
-        <p class="text-xs text-slate-600 mt-2 leading-relaxed">Safe and sterile removal of decaying or wisdom teeth under gentle local anesthesia.</p>
-      </div>
-      <div class="bg-white p-5 rounded-2xl border border-slate-200">
-        <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2"><i class="fa-solid fa-check-circle text-blue-600"></i> Tooth Colored Composite Fillings</h3>
-        <p class="text-xs text-slate-600 mt-2 leading-relaxed">Long-lasting cosmetic restoration for cavities that blend naturally with tooth enamel.</p>
-      </div>
-      <div class="bg-white p-5 rounded-2xl border border-slate-200">
-        <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2"><i class="fa-solid fa-check-circle text-blue-600"></i> Complete & Partial Dentures</h3>
-        <p class="text-xs text-slate-600 mt-2 leading-relaxed">Custom fabricated dental plates for senior citizens for comfortable chewing and speech clarity.</p>
-      </div>
-    </section>
-  </main>
-
-  <!-- ================= 3. ABOUT DOCTOR TAB ================= -->
-  <main id="page-doctor" class="page-section">
-    <section class="bg-blue-900 text-white py-12 px-4 text-center">
-      <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight">About Dr. Mumtaz & The Clinic</h1>
-      <p class="text-blue-200 text-xs md:text-sm mt-1">Dedicated to modern dental care for the residents of Siwan</p>
-    </section>
-    <section class="max-w-4xl mx-auto py-10 px-4 space-y-6">
-      <div class="bg-white p-6 rounded-3xl border border-slate-200 flex flex-col sm:flex-row gap-6 items-center">
-        <div class="w-24 h-24 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center text-4xl shrink-0">
-          <i class="fa-solid fa-stethoscope"></i>
-        </div>
-        <div>
-          <h2 class="text-xl font-bold text-slate-900">Dr. Mumtaz's Smile Care Dental Clinic</h2>
-          <p class="text-xs font-semibold text-blue-600 mt-0.5">Babunia Road, Adda No-2, Siwan, Bihar - 841226</p>
-          <p class="text-xs text-slate-600 mt-3 leading-relaxed">Our clinic is equipped with modern dental chairs, digital diagnostic tools, and strictly monitored sterilization to offer trusted, safe dental procedures with minimal discomfort.</p>
-          <div class="mt-4 flex gap-4 text-xs font-bold text-slate-700">
-            <span><i class="fa-solid fa-user-shield text-emerald-600 mr-1.5"></i> 100% Autoclaved Tools</span>
-            <span><i class="fa-solid fa-calendar-days text-blue-600 mr-1.5"></i> Daily OPD Available</span>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <!-- ================= 4. PRICING TAB ================= -->
-  <main id="page-pricing" class="page-section">
-    <section class="bg-blue-900 text-white py-12 px-4 text-center">
-      <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight">Standard Treatment Estimates</h1>
-      <p class="text-blue-200 text-xs md:text-sm mt-1">Fair and transparent pricing at Smile Care</p>
-    </section>
-    <section class="max-w-3xl mx-auto py-10 px-4">
-      <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
-        <div class="p-3.5 bg-slate-100 font-bold text-xs uppercase text-slate-600 flex justify-between">
-          <span>Treatment</span>
-          <span>Estimated Fee</span>
-        </div>
-        <div class="divide-y divide-slate-100 text-xs font-medium text-slate-700">
-          <div class="p-3.5 flex justify-between items-center">
-            <span>Consultation & Checkup</span>
-            <span class="font-bold text-blue-600">₹150 - ₹200</span>
-          </div>
-          <div class="p-3.5 flex justify-between items-center">
-            <span>Teeth Ultrasonic Cleaning / Scaling</span>
-            <span class="font-bold text-blue-600">₹600 - ₹1,000</span>
-          </div>
-          <div class="p-3.5 flex justify-between items-center">
-            <span>Tooth Extraction (Normal)</span>
-            <span class="font-bold text-blue-600">₹300 - ₹500</span>
-          </div>
-          <div class="p-3.5 flex justify-between items-center">
-            <span>Root Canal Treatment (RCT)</span>
-            <span class="font-bold text-blue-600">₹1,500 - ₹2,500</span>
-          </div>
-          <div class="p-3.5 flex justify-between items-center">
-            <span>Dental Ceramic Cap / Crown</span>
-            <span class="font-bold text-blue-600">₹2,000 - ₹4,500</span>
-          </div>
-        </div>
-      </div>
-      <p class="text-[11px] text-slate-500 text-center mt-3">*Exact charges may vary depending on patient condition and case complexity.</p>
-    </section>
-  </main>
-
-  <!-- ================= 5. CONTACT / BOOKING TAB ================= -->
-  <main id="page-contact" class="page-section">
-    <section class="bg-blue-900 text-white py-12 px-4 text-center">
-      <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight">Book Doctor Visit</h1>
-      <p class="text-blue-200 text-xs md:text-sm mt-1">Book your time slot in advance to avoid clinic rush</p>
-    </section>
-    <section class="max-w-4xl mx-auto py-10 px-4 grid md:grid-cols-2 gap-8">
-      <!-- Booking Form -->
-      <div class="bg-white p-6 rounded-3xl border border-slate-200">
-        <h3 class="font-bold text-slate-900 text-sm mb-4">Patient Information</h3>
-        <form onsubmit="sendBookingToWhatsApp(event)" class="space-y-3.5 text-xs font-semibold text-slate-700">
-          <div>
-            <label class="block mb-1">Patient Name</label>
-            <input type="text" id="p_name" required placeholder="Enter full name" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-blue-600">
-          </div>
-          <div>
-            <label class="block mb-1">Mobile / WhatsApp Number</label>
-            <input type="tel" id="p_phone" required placeholder="e.g. 9199409404" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-blue-600">
-          </div>
-          <div class="grid grid-cols-2 gap-2">
-            <div>
-              <label class="block mb-1">Date</label>
-              <input type="date" id="p_date" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-blue-600">
-            </div>
-            <div>
-              <label class="block mb-1">Time Slot</label>
-              <select id="p_time" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-blue-600">
-                <option>Morning (10:00 AM - 1:00 PM)</option>
-                <option>Evening (4:00 PM - 7:30 PM)</option>
-              </select>
-            </div>
-          </div>
-          <div>
-            <label class="block mb-1">Dental Problem</label>
-            <select id="p_issue" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-blue-600">
-              <option>Toothache / Pain</option>
-              <option>Root Canal (RCT)</option>
-              <option>Teeth Cleaning</option>
-              <option>Tooth Removal / Extraction</option>
-              <option>Cap / Dental Crown</option>
-              <option>Other Consultation</option>
-            </select>
-          </div>
-          <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl text-xs flex items-center justify-center gap-2 shadow-md shadow-blue-600/30 transition">
-            <i class="fa-brands fa-whatsapp text-sm"></i> Send Booking via WhatsApp
-          </button>
-        </form>
-      </div>
-
-      <!-- Address & Info -->
-      <div class="space-y-4">
-        <div class="bg-white p-5 rounded-3xl border border-slate-200 space-y-3 text-xs text-slate-600">
-          <h3 class="font-bold text-slate-900 text-sm">Clinic Contact & Timing</h3>
-          <div>
-            <p class="font-bold text-slate-900"><i class="fa-solid fa-location-dot text-blue-600 mr-1.5"></i> Address:</p>
-            <p class="mt-0.5">Babunia Road, Near Police Adda No-2, Siwan, Bihar - 841226</p>
-          </div>
-          <div>
-            <p class="font-bold text-slate-900"><i class="fa-solid fa-phone text-blue-600 mr-1.5"></i> Phone / WhatsApp:</p>
-            <p class="mt-0.5 font-semibold text-slate-800">+91 91994 09404</p>
-          </div>
-          <div>
-            <p class="font-bold text-slate-900"><i class="fa-solid fa-clock text-blue-600 mr-1.5"></i> Clinic Hours:</p>
-            <p class="mt-0.5">Monday - Saturday: 9:00 AM - 8:00 PM</p>
-            <p>Sunday: 9:00 AM - 2:00 PM</p>
-          </div>
-        </div>
-
-        <div class="bg-slate-100 p-5 rounded-3xl border border-slate-200 text-center">
-          <i class="fa-solid fa-map-location-dot text-2xl text-blue-600 mb-1"></i>
-          <p class="font-bold text-xs text-slate-900">Reach the Clinic Easily</p>
-          <p class="text-[11px] text-slate-500 mb-3">Conveniently located near Adda No.2 on Babunia Road</p>
-          <a href="https://maps.google.com/?q=Babunia+Road+Adda+No+2+Siwan+Bihar" target="_blank" class="inline-block bg-white border border-slate-300 px-4 py-2 rounded-xl text-xs font-bold text-slate-700 hover:bg-slate-50 transition">
-            Open in Google Maps
-          </a>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <!-- FOOTER -->
-  <footer class="bg-slate-950 text-slate-400 text-xs py-8 px-4 border-t border-slate-900">
-    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-      <div>
-        <p class="text-white font-bold text-sm">Dr. Mumtaz's Smile Care Dental Clinic</p>
-        <p class="text-[11px] text-slate-500">Babunia Road, Near Police Adda No.2, Siwan (Bihar)</p>
-      </div>
-      <div class="flex items-center gap-4">
-        <a href="https://www.facebook.com/share/1DdZhZR7nL/" target="_blank" class="hover:text-blue-400 font-semibold"><i class="fa-brands fa-facebook mr-1"></i> Facebook</a>
-        <a href="tel:+919199409404" class="hover:text-white font-semibold"><i class="fa-solid fa-phone mr-1"></i> +91 91994 09404</a>
-      </div>
-    </div>
-  </footer>
-
-  <!-- JAVASCRIPT: TAB NAVIGATION, FIREBASE LISTENER & WHATSAPP REDIRECT -->
-  <script>
-    // Tab switching logic
-    function showPage(pageId) {
-      document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
-      const target = document.getElementById('page-' + pageId);
-      if (target) {
-        target.classList.add('active');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-      document.querySelectorAll('.nav-btn').forEach(btn => {
-        btn.classList.remove('text-blue-600');
-        btn.classList.add('text-slate-600');
-      });
-      const activeBtn = document.getElementById('nav-' + pageId);
-      if (activeBtn) {
-        activeBtn.classList.add('text-blue-600');
-        activeBtn.classList.remove('text-slate-600');
-      }
-    }
-
-    // Direct WhatsApp Lead Generator
-    function sendBookingToWhatsApp(e) {
-      e.preventDefault();
-      const name = document.getElementById('p_name').value;
-      const phone = document.getElementById('p_phone').value;
-      const date = document.getElementById('p_date').value || 'Earliest Slot';
-      const time = document.getElementById('p_time').value;
-      const issue = document.getElementById('p_issue').value;
-
-      const text = `Hello Dr. Mumtaz, I want to book an appointment at Smile Care Dental Clinic:%0A%0A*Patient:* ${name}%0A*Phone:* ${phone}%0A*Problem:* ${issue}%0A*Preferred Date:* ${date}%0A*Time:* ${time}`;
-      window.open(`https://wa.me/919199409404?text=${text}`, '_blank');
-    }
-
-    // Initialize Firebase to sync live changes from Admin Panel
-    const firebaseConfig = {
-      apiKey: "AIzaSyCu55LB6BOBEAyj13WfErwxoouwy8S74X0",
-      authDomain: "sahab-91906.firebaseapp.com",
-      projectId: "sahab-91906",
-      storageBucket: "sahab-91906.firebasestorage.app",
-      messagingSenderId: "637023462679",
-      appId: "1:637023462679:web:ec21986068bc143324c352"
-    };
-
-    try {
-      firebase.initializeApp(firebaseConfig);
-      const db = firebase.database();
-      
-      // Live listener from Admin updates
-      db.ref("clinic_data").on("value", (snapshot) => {
-        const data = snapshot.val();
-        if (data) {
-          if (data.timing) console.log("Live Timing Sync:", data.timing);
+    <style>
+        :root {
+            --bg-body: #0b0c10;
+            --bg-elevated: #13151b;
+            --accent-copper: #d47a47;
+            --accent-gold: #e2ba7d;
+            --text-primary: #fcfcfd;
+            --text-secondary: #9aa1b2;
+            --border-line: rgba(255, 255, 255, 0.08);
+            --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
         }
-      });
-    } catch (err) {
-      console.log("Firebase connection initialized:", err);
-    }
-  </script>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Fixed Minimalist Navigation */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 75px;
+            padding: 0 6%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(11, 12, 16, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: var(--border-line);
+            z-index: 1000;
+        }
+
+        .brand-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .brand-logo-text h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            color: #fff;
+            line-height: 1;
+        }
+
+        .brand-logo-text span {
+            font-size: 0.65rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent-copper);
+            display: block;
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .sfx-pill {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: var(--accent-gold);
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            font-size: 0.82rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .sfx-pill.muted {
+            color: var(--text-secondary);
+            border-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .btn-call-nav {
+            padding: 8px 18px;
+            border-radius: 30px;
+            background: rgba(212, 122, 71, 0.12);
+            border: 1px solid var(--accent-copper);
+            color: var(--accent-copper);
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .btn-call-nav:hover {
+            background: var(--accent-copper);
+            color: #fff;
+        }
+
+        /* Hero Section */
+        .luxury-hero {
+            min-height: 90vh;
+            padding: 130px 6% 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero-tagline {
+            font-size: 0.75rem;
+            letter-spacing: 3.5px;
+            text-transform: uppercase;
+            color: var(--accent-gold);
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .hero-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2.8rem, 7.5vw, 5.8rem);
+            font-weight: 600;
+            line-height: 1.05;
+            letter-spacing: -1px;
+            margin-bottom: 24px;
+        }
+
+        .hero-title em {
+            font-style: italic;
+            color: var(--accent-copper);
+            font-weight: 400;
+        }
+
+        .hero-desc {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            max-width: 580px;
+            line-height: 1.65;
+            margin-bottom: 35px;
+            font-weight: 300;
+        }
+
+        .hero-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn-hero-solid {
+            padding: 14px 30px;
+            border-radius: 40px;
+            background: var(--accent-copper);
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.88rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 8px 24px rgba(212, 122, 71, 0.3);
+            transition: 0.3s;
+        }
+
+        .btn-hero-solid:hover {
+            background: #e28450;
+            transform: translateY(-2px);
+        }
+
+        .btn-hero-ghost {
+            padding: 14px 26px;
+            border-radius: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.88rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.3s;
+        }
+
+        .btn-hero-ghost:hover {
+            border-color: rgba(255, 255, 255, 0.35);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Ambience Visual Showcase */
+        .ambience-banner {
+            padding: 0 6% 60px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .banner-media {
+            width: 100%;
+            height: 480px;
+            border-radius: 24px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .banner-media img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.85);
+        }
+
+        .banner-badge {
+            position: absolute;
+            bottom: 24px;
+            left: 24px;
+            background: rgba(11, 12, 16, 0.85);
+            backdrop-filter: blur(15px);
+            padding: 16px 22px;
+            border-radius: 16px;
+            border: var(--border-line);
+        }
+
+        .banner-badge strong {
+            display: block;
+            font-size: 0.95rem;
+            color: #fff;
+        }
+
+        .banner-badge span {
+            font-size: 0.75rem;
+            color: var(--accent-gold);
+        }
+
+        /* Section Headings */
+        .section-header-block {
+            padding: 80px 6% 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            border-top: var(--border-line);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .section-header-block span {
+            font-size: 0.72rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--accent-copper);
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .section-header-block h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2.2rem, 5vw, 3.4rem);
+            font-weight: 600;
+            line-height: 1.1;
+        }
+
+        /* Menu Grid (Real Food Photography) */
+        .menu-wrapper {
+            padding: 0 6% 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 32px;
+        }
+
+        .dish-card {
+            background: var(--bg-elevated);
+            border: var(--border-line);
+            border-radius: 20px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .dish-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(212, 122, 71, 0.4);
+        }
+
+        .dish-cover {
+            width: 100%;
+            height: 250px;
+            position: relative;
+            background: #181a24;
+            overflow: hidden;
+        }
+
+        .dish-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.7s ease;
+        }
+
+        .dish-card:hover .dish-cover img {
+            transform: scale(1.06);
+        }
+
+        .dish-chip {
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            background: rgba(11, 12, 16, 0.85);
+            backdrop-filter: blur(8px);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--accent-gold);
+        }
+
+        .dish-content {
+            padding: 22px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .dish-top-line {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 8px;
+        }
+
+        .dish-top-line h4 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.45rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .dish-cost {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+        }
+
+        .dish-desc {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            flex-grow: 1;
+            font-weight: 300;
+        }
+
+        .btn-wa-order {
+            width: 100%;
+            padding: 11px;
+            border-radius: 12px;
+            background: rgba(37, 211, 102, 0.08);
+            border: 1px solid rgba(37, 211, 102, 0.25);
+            color: #25d366;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: 0.25s;
+        }
+
+        .btn-wa-order:hover {
+            background: #25d366;
+            color: #0b0c10;
+        }
+
+        /* Location Section */
+        .location-section {
+            padding: 0 6% 90px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .loc-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .loc-entry {
+            margin-bottom: 24px;
+        }
+
+        .loc-entry span {
+            font-size: 0.72rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent-copper);
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .loc-entry p {
+            font-size: 1.05rem;
+            color: #fff;
+        }
+
+        .map-box {
+            height: 360px;
+            border-radius: 20px;
+            overflow: hidden;
+            border: var(--border-line);
+        }
+
+        .map-box iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+            filter: contrast(1.1) brightness(0.85);
+        }
+
+        /* Floating Concierge WhatsApp */
+        .float-wa-concierge {
+            position: fixed;
+            bottom: 26px;
+            left: 24px;
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            background: #25d366;
+            color: #fff;
+            display: grid;
+            place-items: center;
+            font-size: 26px;
+            box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4);
+            z-index: 999;
+            text-decoration: none;
+            transition: transform 0.25s;
+        }
+
+        .float-wa-concierge:hover {
+            transform: scale(1.1);
+        }
+
+        /* Demo Explainer Banner (Bottom) */
+        .demo-bar {
+            background: #13151b;
+            border-top: var(--border-line);
+            padding: 12px 6%;
+            text-align: center;
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+        }
+
+        .demo-bar strong {
+            color: var(--accent-gold);
+        }
+
+        /* Footer */
+        footer {
+            padding: 40px 6%;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: var(--border-line);
+            color: var(--text-secondary);
+            font-size: 0.82rem;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        /* Smooth Reveal Nodes */
+        .reveal-node {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
+        }
+
+        .reveal-node.in-view {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 850px) {
+            .loc-grid { grid-template-columns: 1fr; }
+            .banner-media { height: 320px; }
+            .luxury-hero { padding-top: 100px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <a href="#home" class="brand-link">
+            <div class="brand-logo-text">
+                <h1>THE MOM'S</h1>
+                <span>CAFE & DINE • CHAPRA</span>
+            </div>
+        </a>
+
+        <div class="header-controls">
+            <button class="sfx-pill" id="sfxBtn" onclick="toggleAudio()" title="Sound Effects">
+                <i class="fa-solid fa-volume-high" id="sfxIcon"></i>
+            </button>
+            <a href="tel:07979002586" class="btn-call-nav">
+                <i class="fa-solid fa-phone"></i> Call Now
+            </a>
+        </div>
+    </header>
+
+    <!-- Luxury Editorial Hero -->
+    <section class="luxury-hero" id="home">
+        <span class="hero-tagline reveal-node">Kachhari Station Road • Chapra, Bihar</span>
+        <h2 class="hero-title reveal-node">
+            Where authentic flavor meets <em>cozy celebration.</em>
+        </h2>
+        <p class="hero-desc reveal-node">
+            Experience Chapra's most cherished culinary destination. From steaming crispy Himalayan momos and wok-tossed Hakka noodles to decadent shakes and slow-cooked royal dum biryani.
+        </p>
+        <div class="hero-actions reveal-node">
+            <a href="https://wa.me/9107979002586?text=Hello%20The%20Mom's%20Cafe!%20I%20would%20like%20to%20reserve%20a%20table%20or%20place%20an%20order." target="_blank" class="btn-hero-solid">
+                <i class="fa-brands fa-whatsapp"></i> Reserve on WhatsApp
+            </a>
+            <a href="https://maps.app.goo.gl/5Xnc2h28DqSV5jyX6?g_st=ac" target="_blank" class="btn-hero-ghost">
+                <i class="fa-solid fa-location-arrow"></i> Google Maps Directions
+            </a>
+        </div>
+    </section>
+
+    <!-- Ambience Showcase Strip -->
+    <div class="ambience-banner reveal-node">
+        <div class="banner-media">
+            <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=1500&q=85" alt="The Mom's Cafe Ambience">
+            <div class="banner-badge">
+                <strong>Warm Ambient Dining & Lounge</strong>
+                <span>4.5 ★ Rating (457+ Verified Google Reviews)</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Curated Menu Section -->
+    <section id="menu">
+        <div class="section-header-block reveal-node">
+            <div>
+                <span>Chef's Specialities</span>
+                <h3>Signature Offerings</h3>
+            </div>
+            <p style="color:var(--text-secondary); max-width:420px; font-size:0.88rem;">
+                Tap any dish to instantly order directly on WhatsApp with pre-filled details.
+            </p>
+        </div>
+
+        <div class="menu-wrapper">
+            <div class="menu-grid">
+                
+                <!-- Real Momos Item -->
+                <div class="dish-card reveal-node">
+                    <div class="dish-cover">
+                        <span class="dish-chip">Customer Favorite</span>
+                        <img src="https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?auto=format&fit=crop&w=700&q=80" alt="Crispy Fried Momos">
+                    </div>
+                    <div class="dish-content">
+                        <div class="dish-top-line">
+                            <h4>Crispy Stuffed Momos</h4>
+                            <span class="dish-cost">₹120</span>
+                        </div>
+                        <p class="dish-desc">Handcrafted dumplings packed with spiced garden fillings, fried golden crispy, and paired with fiery garlic chilli dip.</p>
+                        <a href="https://wa.me/9107979002586?text=Hello%20The%20Mom's%20Cafe!%20I%20want%20to%20order:%20Crispy%20Stuffed%20Momos%20(₹120)" target="_blank" class="btn-wa-order">
+                            <i class="fa-brands fa-whatsapp"></i> Order on WhatsApp
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Paneer Hakka Noodles Item -->
+                <div class="dish-card reveal-node">
+                    <div class="dish-cover">
+                        <span class="dish-chip">Wok Special</span>
+                        <img src="https://images.unsplash.com/photo-1585032226651-759b368d7246?auto=format&fit=crop&w=700&q=80" alt="Paneer Hakka Noodles">
+                    </div>
+                    <div class="dish-content">
+                        <div class="dish-top-line">
+                            <h4>Paneer Hakka Noodles</h4>
+                            <span class="dish-cost">₹160</span>
+                        </div>
+                        <p class="dish-desc">Smoky wok-tossed noodles tossed with fresh cottage cheese cubes, bell peppers, scallions, and dark vintage soy sauce.</p>
+                        <a href="https://wa.me/9107979002586?text=Hello%20The%20Mom's%20Cafe!%20I%20want%20to%20order:%20Paneer%20Hakka%20Noodles%20(₹160)" target="_blank" class="btn-wa-order">
+                            <i class="fa-brands fa-whatsapp"></i> Order on WhatsApp
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Chocolate Oreo Shake Item -->
+                <div class="dish-card reveal-node">
+                    <div class="dish-cover">
+                        <span class="dish-chip">Signature Cooler</span>
+                        <img src="https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=700&q=80" alt="Chocolate Oreo Milkshake">
+                    </div>
+                    <div class="dish-content">
+                        <div class="dish-top-line">
+                            <h4>Chocolate Oreo Shake</h4>
+                            <span class="dish-cost">₹140</span>
+                        </div>
+                        <p class="dish-desc">Velvety thick milkshake churned with crumbled Oreo biscuits, rich Belgian chocolate drizzle, and vanilla cream.</p>
+                        <a href="https://wa.me/9107979002586?text=Hello%20The%20Mom's%20Cafe!%20I%20want%20to%20order:%20Chocolate%20Oreo%20Shake%20(₹140)" target="_blank" class="btn-wa-order">
+                            <i class="fa-brands fa-whatsapp"></i> Order on WhatsApp
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Special Dum Biryani Item -->
+                <div class="dish-card reveal-node">
+                    <div class="dish-cover">
+                        <span class="dish-chip">Royal Dum</span>
+                        <img src="https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=700&q=80" alt="Special Dum Biryani">
+                    </div>
+                    <div class="dish-content">
+                        <div class="dish-top-line">
+                            <h4>Royal Dum Biryani</h4>
+                            <span class="dish-cost">₹220</span>
+                        </div>
+                        <p class="dish-desc">Aged long-grain basmati rice slow-cooked on traditional charcoal embers with whole spices, saffron, and fresh cooling raita.</p>
+                        <a href="https://wa.me/9107979002586?text=Hello%20The%20Mom's%20Cafe!%20I%20want%20to%20order:%20Royal%20Dum%20Biryani%20(₹220)" target="_blank" class="btn-wa-order">
+                            <i class="fa-brands fa-whatsapp"></i> Order on WhatsApp
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Location & Contact -->
+    <section class="location-section" id="location">
+        <div class="section-header-block reveal-node" style="padding-top:0;">
+            <div>
+                <span>Reach The Lounge</span>
+                <h3>Location & Hours</h3>
+            </div>
+        </div>
+
+        <div class="loc-grid reveal-node">
+            <div>
+                <div class="loc-entry">
+                    <span>Street Address</span>
+                    <p>Kachhari Station Road, Salempur, Sadhapur, Chapra, Bihar 841301</p>
+                </div>
+
+                <div class="loc-entry">
+                    <span>Hours of Hospitality</span>
+                    <p>Open Daily from 9:45 AM Onwards • Breakfast, Lunch & Dinner</p>
+                </div>
+
+                <div class="loc-entry">
+                    <span>Phone & Inquiries</span>
+                    <p>+91 079790 02586</p>
+                </div>
+
+                <div style="margin-top: 30px;">
+                    <a href="https://maps.app.goo.gl/5Xnc2h28DqSV5jyX6?g_st=ac" target="_blank" class="btn-hero-solid">
+                        <i class="fa-solid fa-location-arrow"></i> Open in Google Maps
+                    </a>
+                </div>
+            </div>
+
+            <div class="map-box">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14372.484964687506!2d84.7200!3d25.7800!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3992fc0000000000%3A0x0!2sChapra%2C%20Bihar!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin" 
+                    allowfullscreen="" 
+                    loading="lazy">
+                </iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Floating Concierge WhatsApp Button -->
+    <a href="https://wa.me/9107979002586?text=Hello%20The%20Mom's%20Cafe!%20I%20would%20like%20to%20inquire%20about%20table%20reservation." class="float-wa-concierge" target="_blank" title="WhatsApp Concierge">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <!-- Demo Explainer Banner -->
+    <div class="demo-bar">
+        ⚡ <strong>Live Interactive Demo</strong> • Real-time WhatsApp ordering enabled. Full custom Admin Panel & Database can be linked upon launch.
+    </div>
+
+    <!-- Minimal Footer -->
+    <footer>
+        <p>© 2026 The Mom's Cafe & Dine. Curated for Chapra, Bihar.</p>
+        <p>Premium Digital Showcase</p>
+    </footer>
+
+    <!-- Interactive Scripts: Scroll Reveal + Web Audio Velocity SFX -->
+    <script>
+        // 1. Scroll Reveal Observer
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal-node').forEach(node => {
+            revealObserver.observe(node);
+        });
+
+        // 2. Browser-Native Web Audio Scroll Swoosh (No external MP3 needed)
+        let audioCtx = null;
+        let isAudioOn = true;
+        let gainNode = null;
+        let filterNode = null;
+        let lastY = window.scrollY;
+        let stopTimeout = null;
+
+        function initAudio() {
+            if (audioCtx) return;
+            try {
+                const AudioClass = window.AudioContext || window.webkitAudioContext;
+                audioCtx = new AudioClass();
+
+                // Gentle low-pass pink noise buffer
+                const len = audioCtx.sampleRate * 2;
+                const buffer = audioCtx.createBuffer(1, len, audioCtx.sampleRate);
+                const out = buffer.getChannelData(0);
+                let b0 = 0, b1 = 0, b2 = 0;
+
+                for (let i = 0; i < len; i++) {
+                    const white = Math.random() * 2 - 1;
+                    b0 = 0.99886 * b0 + white * 0.0555179;
+                    b1 = 0.99332 * b1 + white * 0.0750759;
+                    b2 = 0.96900 * b2 + white * 0.1538520;
+                    out[i] = (b0 + b1 + b2) * 0.05;
+                }
+
+                const src = audioCtx.createBufferSource();
+                src.buffer = buffer;
+                src.loop = true;
+
+                filterNode = audioCtx.createBiquadFilter();
+                filterNode.type = 'lowpass';
+                filterNode.frequency.value = 320;
+
+                gainNode = audioCtx.createGain();
+                gainNode.gain.setValueAtTime(0.0001, audioCtx.currentTime);
+
+                src.connect(filterNode);
+                filterNode.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                src.start(0);
+            } catch (e) {
+                console.warn(e);
+            }
+        }
+
+        window.addEventListener('click', initAudio, { once: true });
+        window.addEventListener('scroll', initAudio, { once: true });
+
+        // Scroll Velocity to Sound
+        window.addEventListener('scroll', () => {
+            if (!isAudioOn || !audioCtx || !gainNode) return;
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+
+            const curY = window.scrollY;
+            const delta = Math.abs(curY - lastY);
+            lastY = curY;
+
+            const vol = Math.min(Math.max(delta / 300, 0.012), 0.04);
+            const freq = 280 + Math.min(delta * 6, 500);
+
+            filterNode.frequency.setTargetAtTime(freq, audioCtx.currentTime, 0.04);
+            gainNode.gain.setTargetAtTime(vol, audioCtx.currentTime, 0.03);
+
+            clearTimeout(stopTimeout);
+            stopTimeout = setTimeout(() => {
+                if (gainNode) {
+                    gainNode.gain.setTargetAtTime(0.00001, audioCtx.currentTime, 0.1);
+                }
+            }, 70);
+        }, { passive: true });
+
+        function toggleAudio() {
+            isAudioOn = !isAudioOn;
+            const btn = document.getElementById('sfxBtn');
+            const icon = document.getElementById('sfxIcon');
+
+            if (isAudioOn) {
+                btn.classList.remove('muted');
+                icon.className = 'fa-solid fa-volume-high';
+            } else {
+                btn.classList.add('muted');
+                icon.className = 'fa-solid fa-volume-xmark';
+                if (gainNode && audioCtx) {
+                    gainNode.gain.setValueAtTime(0.0001, audioCtx.currentTime);
+                }
+            }
+        }
+    </script>
 </body>
 </html>
